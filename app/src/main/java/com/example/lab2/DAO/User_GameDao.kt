@@ -3,6 +3,7 @@ package com.example.lab2.DAO
 import androidx.room.*
 import com.example.lab2.Entity.User_Game
 
+@Dao
 interface User_GameDao {
     @Insert
     fun insertUserGame(vararg userGame: User_Game)

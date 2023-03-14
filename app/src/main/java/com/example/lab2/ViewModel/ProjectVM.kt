@@ -34,7 +34,7 @@ class ProjectVM: ViewModel() {
     fun getUsersFromDB() {
         context.get()?.let {
             executor.submit {
-                ProjectDB.getInstance(it).getUserDao().getAll()
+                users.value?.addAll(ProjectDB.getInstance(it).getUserDao().getAll())
                 users.postValue(users.value)
             }
         }

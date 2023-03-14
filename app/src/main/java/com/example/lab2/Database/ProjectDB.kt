@@ -23,7 +23,7 @@ abstract class ProjectDB: RoomDatabase() {
                     if(! ::instance.isInitialized) {
                         instance = Room
                             .databaseBuilder(context, ProjectDB::class.java, "project_db")
-                            .addCallback(object : RoomDatabase.Callback() {
+                            .addCallback(object : Callback() {
                                 override fun onCreate(db: SupportSQLiteDatabase) {
                                     super.onCreate(db)
                                     val user = User("Pause", "Champ")

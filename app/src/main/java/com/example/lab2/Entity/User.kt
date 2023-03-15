@@ -14,4 +14,4 @@ data class User(
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "id_user")
     var id: Int = 0
-    }
+}

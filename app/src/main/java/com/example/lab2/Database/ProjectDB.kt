@@ -26,9 +26,9 @@ abstract class ProjectDB: RoomDatabase() {
                             .addCallback(object : Callback() {
                                 override fun onCreate(db: SupportSQLiteDatabase) {
                                     super.onCreate(db)
-                                    val user = User("Pause", "Champ")
-                                    val user2 = User("Giga", "Chad")
-                                    Executors.newSingleThreadExecutor().execute { instance.getUserDao().insertUser(user, user2) }
+//                                    val user = User("Ivan", "Ivanov")
+//                                    val user2 = User("Petr", "Petrov")
+//                                    Executors.newSingleThreadExecutor().execute { instance.getUserDao().insertUser(user, user2) }
                                 }
                             } )
                             .build()

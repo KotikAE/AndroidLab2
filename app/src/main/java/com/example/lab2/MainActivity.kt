@@ -3,9 +3,6 @@ package com.example.lab2
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.view.View
-import androidx.activity.viewModels
-import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ItemTouchHelper
@@ -13,7 +10,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.lab2.Adapter.RecyclerAdapter
 import com.example.lab2.Util.UserDiffUtil
-import com.example.lab2.ViewModel.AddUserVM
 import com.example.lab2.ViewModel.ProjectVM
 import com.example.lab2.databinding.ActivityMainBinding
 import java.lang.ref.WeakReference
@@ -24,12 +20,12 @@ class MainActivity : AppCompatActivity() {
     }
     private lateinit var binding: ActivityMainBinding
     private lateinit var adapter: RecyclerAdapter
-    private val addUserModel: AddUserVM by viewModels()
-    private val fragment: FragmentAddUser = FragmentAddUser.newInstance()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         val model = ViewModelProvider(this)[ProjectVM::class.java]
+        val fragment: FragmentAddUser = FragmentAddUser.newInstance()
         model.context = WeakReference(this)
         binding = ActivityMainBinding.inflate(layoutInflater)
         adapter = RecyclerAdapter()
@@ -51,8 +47,7 @@ class MainActivity : AppCompatActivity() {
             })
         itemTouchHelper.attachToRecyclerView(binding.recyclerView)
 
-
-
+        binding.recyclerView.layoutManager = LinearLayoutManager(this)
         model.getUsers().observe(this) {
             Log.d(TAG, "OBSERVE")
             val productDiffUtilCallback =
@@ -61,9 +56,13 @@ class MainActivity : AppCompatActivity() {
                 DiffUtil.calculateDiff(productDiffUtilCallback)
             adapter.setUsers(it)
             productDiffResult.dispatchUpdatesTo(adapter)
+            model.getUsersFromDB()
+            binding.recyclerView.adapter = adapter
         }
 
-        model.getUsersFromDB()
+
+
+        fragment.getModel(model)
 
         binding.buttonAdd.setOnClickListener {
             supportFragmentManager
@@ -72,16 +71,6 @@ class MainActivity : AppCompatActivity() {
                 .commit()
         }
 
-        addUserModel.newUser.observe(this as LifecycleOwner, {
-            model.addUsers(it)
-            supportFragmentManager
-                .beginTransaction()
-                .remove(fragment)
-                .commit()
-        })
-
         setContentView(binding.root)
-        binding.recyclerView.layoutManager = LinearLayoutManager(this)
-        binding.recyclerView.adapter = adapter
     }
 }

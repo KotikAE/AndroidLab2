@@ -29,7 +29,7 @@ class RecyclerAdapter: RecyclerView.Adapter<RecyclerAdapter.ViewHolder>() {
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = users[position]
-        holder.binding.idField.text = item.id.toString()
+        //holder.binding.idField.text = item.id.toString()
         holder.binding.firstNameField.text = item.firstName
         holder.binding.lastNameField.text = item.lastName
     }

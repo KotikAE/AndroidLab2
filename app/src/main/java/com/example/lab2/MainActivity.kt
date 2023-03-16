@@ -47,7 +47,6 @@ class MainActivity : AppCompatActivity() {
             })
         itemTouchHelper.attachToRecyclerView(binding.recyclerView)
 
-        binding.recyclerView.layoutManager = LinearLayoutManager(this)
         model.getUsers().observe(this) {
             Log.d(TAG, "OBSERVE")
             val productDiffUtilCallback =
@@ -56,13 +55,14 @@ class MainActivity : AppCompatActivity() {
                 DiffUtil.calculateDiff(productDiffUtilCallback)
             adapter.setUsers(it)
             productDiffResult.dispatchUpdatesTo(adapter)
-            model.getUsersFromDB()
             binding.recyclerView.adapter = adapter
         }
 
-
-
+        model.getUsersFromDB()
         fragment.getModel(model)
+
+        binding.recyclerView.layoutManager = LinearLayoutManager(this)
+        binding.recyclerView.adapter = adapter
 
         binding.buttonAdd.setOnClickListener {
             supportFragmentManager
